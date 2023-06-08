@@ -17,10 +17,10 @@
     }
 </style>
 
-<script>
+<script type="ts">
     import { onMount } from "svelte";
 
-    let holders = [];
+    let holders: string[] = [];
 
     import { tweened } from "svelte/motion";
 
@@ -28,12 +28,23 @@
 
     let something = 0;
 
-    onMount(async () => {
+    const getHolders = async () => {
         try {
             holders = await fetch("/api/get-holders").then((res) => res.json());
+
             holderCount.set(holders?.length || 0);
         } catch (error) {
             console.log(error);
+        }
+    };
+
+    onMount(async () => {
+        try {
+            await getHolders();
+        } catch (error) {
+            console.log(error);
+
+            getHolders;
         }
     });
 </script>
@@ -85,5 +96,14 @@
         >
             <h2 class="text-xl">Mint Compressed Banana</h2>
         </a>
+
+        {#if holders?.length}
+            <h1 class="mt-4 w-full text-left text-4xl font-bold">Holders</h1>
+            {#each holders as holder}
+                <div class="glass my-1 w-full rounded p-4 shadow">
+                    <p>{holder}</p>
+                </div>
+            {/each}
+        {/if}
     </div>
 </div>
