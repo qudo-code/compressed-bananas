@@ -19,10 +19,10 @@
 
 <script type="ts">
     import { onMount } from "svelte";
+    import { tweened } from "svelte/motion";
 
     let holders: string[] = [];
-
-    import { tweened } from "svelte/motion";
+    let isLoading = false;
 
     const holderCount = tweened(0, { duration: 2000 });
 
@@ -92,7 +92,9 @@
         </div>
         <a
             href="/api/mint"
+            on:click={() => (isLoading = true)}
             class="btn-xl btn-primary btn w-full border-0 bg-green-500 hover:bg-white hover:text-black"
+            class:loading={isLoading}
         >
             <h2 class="text-xl">Mint Compressed Banana</h2>
         </a>
