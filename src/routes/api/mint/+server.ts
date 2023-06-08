@@ -21,115 +21,124 @@ import {
 } from "@solana/spl-account-compression";
 import { PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
 import { SECRET_KEYPAIR, SECRET_TREE_KEYPAIR } from "$env/static/private";
-import { json } from "@sveltejs/kit";
+import { json, redirect } from "@sveltejs/kit";
 
-export const GET = async ({ url }) => {
-    return new Response(
-        JSON.stringify({
-            icon: "https://shdw-drive.genesysgo.net/7LsXy7eqD3RGuKXxmwE245akJeZURRSgN8vAuYWdS5JF/banana.png",
-            label: "Compressed Banana",
-        })
-    );
-};
+import { TipLink } from "@tiplink/api";
 
-export const POST = async ({ request }) => {
-    const body = await request.json();
+export const GET = async ({ request }) => {
+    try {
+        const connection = new Connection(
+            "https://api.mainnet-beta.solana.com"
+        );
+        const tiplink = await TipLink.create();
 
-    const connection = new Connection("https://api.mainnet-beta.solana.com");
+        const keypair = Keypair.fromSecretKey(
+            new Uint8Array(JSON.parse(SECRET_KEYPAIR))
+        );
 
-    const keypair = Keypair.fromSecretKey(
-        new Uint8Array(JSON.parse(SECRET_KEYPAIR))
-    );
+        const merkleTree = Keypair.fromSecretKey(
+            new Uint8Array(JSON.parse(SECRET_TREE_KEYPAIR))
+        );
 
-    const merkleTree = Keypair.fromSecretKey(
-        new Uint8Array(JSON.parse(SECRET_TREE_KEYPAIR))
-    );
+        const [treeAuthority, _bump] = PublicKey.findProgramAddressSync(
+            [merkleTree.publicKey.toBuffer()],
+            BUBBLEGUM_PROGRAM_ID
+        );
 
-    const [treeAuthority, _bump] = PublicKey.findProgramAddressSync(
-        [merkleTree.publicKey.toBuffer()],
-        BUBBLEGUM_PROGRAM_ID
-    );
+        const collectionMint = new PublicKey(
+            "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV"
+        );
 
-    const collectionMint = new PublicKey(
-        "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV"
-    );
-    const [collectionMetadataAccount, _b1] = PublicKey.findProgramAddressSync(
-        [
-            Buffer.from("metadata", "utf8"),
-            TOKEN_METADATA_PROGRAM_ID.toBuffer(),
-            collectionMint.toBuffer(),
-        ],
-        TOKEN_METADATA_PROGRAM_ID
-    );
-    const [collectionEditionAccount, _b2] = PublicKey.findProgramAddressSync(
-        [
-            Buffer.from("metadata", "utf8"),
-            TOKEN_METADATA_PROGRAM_ID.toBuffer(),
-            collectionMint.toBuffer(),
-            Buffer.from("edition", "utf8"),
-        ],
-        TOKEN_METADATA_PROGRAM_ID
-    );
-    const [bgumSigner, __] = PublicKey.findProgramAddressSync(
-        [Buffer.from("collection_cpi", "utf8")],
-        BUBBLEGUM_PROGRAM_ID
-    );
-    const ix = await createMintToCollectionV1Instruction(
-        {
-            bubblegumSigner: bgumSigner,
-            collectionAuthority: keypair.publicKey,
-            collectionAuthorityRecordPda: BUBBLEGUM_PROGRAM_ID,
-            collectionMetadata: collectionMetadataAccount,
-            collectionMint: collectionMint,
-            compressionProgram: SPL_ACCOUNT_COMPRESSION_PROGRAM_ID,
-            editionAccount: collectionEditionAccount,
-            leafDelegate: keypair.publicKey,
-            leafOwner: new PublicKey(body.account),
-            logWrapper: SPL_NOOP_PROGRAM_ID,
-            merkleTree: merkleTree.publicKey,
-            payer: new PublicKey(body.account),
-            tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
-            treeAuthority: treeAuthority,
-            treeDelegate: keypair.publicKey,
-        },
-        {
-            metadataArgs: {
-                collection: { key: collectionMint, verified: false },
-                creators: [],
-                editionNonce: null,
-                isMutable: true,
-                name: "Compressed Banana",
-                primarySaleHappened: true,
-                sellerFeeBasisPoints: 0,
-                symbol: "cQUDO",
-                tokenProgramVersion: TokenProgramVersion.Original,
-                tokenStandard: null,
-                uri: "https://shdw-drive.genesysgo.net/7LsXy7eqD3RGuKXxmwE245akJeZURRSgN8vAuYWdS5JF/nft-metadata.json",
-                uses: null,
+        const [collectionMetadataAccount, _b1] =
+            PublicKey.findProgramAddressSync(
+                [
+                    Buffer.from("metadata", "utf8"),
+                    TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+                    collectionMint.toBuffer(),
+                ],
+                TOKEN_METADATA_PROGRAM_ID
+            );
+        const [collectionEditionAccount, _b2] =
+            PublicKey.findProgramAddressSync(
+                [
+                    Buffer.from("metadata", "utf8"),
+                    TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+                    collectionMint.toBuffer(),
+                    Buffer.from("edition", "utf8"),
+                ],
+                TOKEN_METADATA_PROGRAM_ID
+            );
+        const [bgumSigner, __] = PublicKey.findProgramAddressSync(
+            [Buffer.from("collection_cpi", "utf8")],
+            BUBBLEGUM_PROGRAM_ID
+        );
+        const ix = await createMintToCollectionV1Instruction(
+            {
+                bubblegumSigner: bgumSigner,
+                collectionAuthority: keypair.publicKey,
+                collectionAuthorityRecordPda: BUBBLEGUM_PROGRAM_ID,
+                collectionMetadata: collectionMetadataAccount,
+                collectionMint: collectionMint,
+                compressionProgram: SPL_ACCOUNT_COMPRESSION_PROGRAM_ID,
+                editionAccount: collectionEditionAccount,
+                leafDelegate: keypair.publicKey,
+                leafOwner: tiplink.keypair.publicKey,
+                logWrapper: SPL_NOOP_PROGRAM_ID,
+                merkleTree: merkleTree.publicKey,
+                payer: keypair.publicKey,
+                tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
+                treeAuthority: treeAuthority,
+                treeDelegate: keypair.publicKey,
             },
-        }
-    );
+            {
+                metadataArgs: {
+                    collection: { key: collectionMint, verified: false },
+                    creators: [],
+                    editionNonce: null,
+                    isMutable: true,
+                    name: "Compressed Banana",
+                    primarySaleHappened: true,
+                    sellerFeeBasisPoints: 0,
+                    symbol: "cQUDO",
+                    tokenProgramVersion: TokenProgramVersion.Original,
+                    tokenStandard: null,
+                    uri: "https://shdw-drive.genesysgo.net/7LsXy7eqD3RGuKXxmwE245akJeZURRSgN8vAuYWdS5JF/nft-metadata.json",
+                    uses: null,
+                },
+            }
+        );
 
-    const transaction = new Transaction();
+        const transaction = new Transaction();
 
-    transaction.add(ix);
+        transaction.add(ix);
 
-    transaction.recentBlockhash = (
-        await connection.getLatestBlockhash("finalized")
-    ).blockhash;
+        transaction.recentBlockhash = (
+            await connection.getLatestBlockhash("finalized")
+        ).blockhash;
 
-    transaction.feePayer = keypair.publicKey;
+        transaction.feePayer = keypair.publicKey;
 
-    transaction.partialSign(keypair);
+        const tx = await sendVersionedTx(connection, [ix], keypair.publicKey, [
+            keypair,
+        ]);
 
-    const serialized = Buffer.from(
-        transaction.serialize({
-            requireAllSignatures: false,
-            verifySignatures: false,
-        })
-    ).toString("base64");
+        const message = "Mint a Compressed Banana by @_qudo!";
 
-    const message = "Mint a Compressed Banana by @_qudo!";
+        const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    return new Response(JSON.stringify({ message, transaction: serialized }));
+        await wait(5000);
+
+        return new Response("Redirect", {
+            headers: { Location: tiplink.url },
+            status: 303,
+        });
+    } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+
+        return new Response("Redirect", {
+            headers: { Location: "/" },
+            status: 303,
+        });
+    }
 };
