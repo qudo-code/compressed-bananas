@@ -1,0 +1,42 @@
+{
+    "animation_url": "https://shdw-drive.genesysgo.net/7LsXy7eqD3RGuKXxmwE245akJeZURRSgN8vAuYWdS5JF/banana.mp4",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Fruit"
+        },
+        {
+            "trait_type": "Size",
+            "value": "Smol"
+        }
+    ],
+    "collection": {
+        "family": "cNFT Experiments by @_qudo",
+        "name": "Compressed Bananas"
+    },
+    "description": "Compressed Bananas by @_qudo. An experiment in compression where NFTs are minted via tapping a phone to a physical banana.",
+    "external_url": "https://compressed-bananas.vercel.app/",
+    "image": "https://shdw-drive.genesysgo.net/7LsXy7eqD3RGuKXxmwE245akJeZURRSgN8vAuYWdS5JF/collection.png",
+    "name": "Compressed Banana",
+    "properties": {
+        "category": "image",
+        "creators": [
+            {
+                "address": "CNFTpGaajQVPoiYSS8MgkSC6DeYYVZLYah9kJGJnMgqV",
+                "share": 100
+            }
+        ],
+        "files": [
+            {
+                "type": "video/mp4",
+                "uri": "https://shdw-drive.genesysgo.net/7LsXy7eqD3RGuKXxmwE245akJeZURRSgN8vAuYWdS5JF/banana.mp4"
+            },
+            {
+                "type": "image/png",
+                "uri": "https://shdw-drive.genesysgo.net/7LsXy7eqD3RGuKXxmwE245akJeZURRSgN8vAuYWdS5JF/collection.png"
+            }
+        ]
+    },
+    "seller_fee_basis_points": 4200,
+    "symbol": "cQUDO"
+}
