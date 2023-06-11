@@ -139,6 +139,15 @@
                         Mint. More. Bananas.
                     </h3>
                 </div>
+                <div>
+                    <a
+                        class="btn-outline btn"
+                        href="https://github.com/qudo-code/compressed-bananas"
+                        target="_blank"
+                    >
+                        Github
+                    </a>
+                </div>
             </div>
 
             <div class="my-5 rounded bg-blue-200 p-2 text-black shadow-lg">
