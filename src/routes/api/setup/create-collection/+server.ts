@@ -18,12 +18,14 @@ import {
 } from "@solana/web3.js";
 import { PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
 
-import { SECRET_COLLECTION_KEYPAIR, SECRET_KEYPAIR } from "$env/static/private";
+import {
+    SECRET_COLLECTION_KEYPAIR,
+    SECRET_KEYPAIR,
+    SECRET_RPC,
+} from "$env/static/private";
 
 export const GET = async ({ url }) => {
-    const connection = new Connection(
-        "https://rpc.helius.xyz/?api-key=86425814-70c5-46d2-a033-c675dd0659de"
-    );
+    const connection = new Connection(SECRET_RPC);
 
     const cmintKey = Keypair.fromSecretKey(
         new Uint8Array(JSON.parse(SECRET_COLLECTION_KEYPAIR))
@@ -36,10 +38,12 @@ export const GET = async ({ url }) => {
     // eslint-disable-next-line no-console
     console.log("1");
 
+    // The collection account (swap with your own)
     const collectionMint = new PublicKey(
         "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV"
     );
 
+    // The collection token account (swap with your own)
     const collectionTokenAccount = new PublicKey(
         "7wX25Y1zWjJPbz9havqqUMDifzNNQ8pa5eZsQNXaHxbp"
     );

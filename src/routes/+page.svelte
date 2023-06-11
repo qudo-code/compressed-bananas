@@ -97,6 +97,7 @@
 
             holderCount.set(holders?.length || 0);
         } catch (error) {
+            // eslint-disable-next-line no-console
             console.log(error);
         }
     };

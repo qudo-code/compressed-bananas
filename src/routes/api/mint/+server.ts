@@ -123,8 +123,6 @@ export const GET = async ({ request }) => {
             keypair,
         ]);
 
-        console.log(tx);
-
         return new Response(JSON.stringify({ tiplink: tiplink.url, tx }));
     } catch (error) {
         // eslint-disable-next-line no-console

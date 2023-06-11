@@ -20,7 +20,11 @@ import {
 
 import { sendVersionedTx } from "$lib/util/send-versioned-transaction";
 
-import { SECRET_KEYPAIR, SECRET_TREE_KEYPAIR } from "$env/static/private";
+import {
+    SECRET_KEYPAIR,
+    SECRET_TREE_KEYPAI,
+    SECRET_RPC,
+} from "$env/static/private";
 
 const keypair = Keypair.fromSecretKey(
     new Uint8Array(JSON.parse(SECRET_KEYPAIR))
@@ -31,7 +35,7 @@ const merkleTree = Keypair.fromSecretKey(
 );
 
 export const GET = async ({ url }) => {
-    const connection = new Connection("https://api.mainnet-beta.solana.com");
+    const connection = new Connection(SECRET_RPC);
 
     const [treeAuthority, _bump] = PublicKey.findProgramAddressSync(
         [merkleTree.publicKey.toBuffer()],
