@@ -22,7 +22,7 @@ import { sendVersionedTx } from "$lib/util/send-versioned-transaction";
 
 import {
     SECRET_KEYPAIR,
-    SECRET_TREE_KEYPAI,
+    SECRET_TREE_KEYPAIR,
     SECRET_RPC,
 } from "$env/static/private";
 
