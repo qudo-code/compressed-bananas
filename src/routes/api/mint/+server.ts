@@ -20,16 +20,19 @@ import {
     getConcurrentMerkleTreeAccountSize,
 } from "@solana/spl-account-compression";
 import { PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
-import { SECRET_KEYPAIR, SECRET_TREE_KEYPAIR } from "$env/static/private";
+import {
+    SECRET_KEYPAIR,
+    SECRET_TREE_KEYPAIR,
+    SECRET_COLLECTION_MINT,
+    SECRET_RPC,
+} from "$env/static/private";
 import { json, redirect } from "@sveltejs/kit";
 
 import { TipLink } from "@tiplink/api";
 
 export const GET = async ({ request }) => {
     try {
-        const connection = new Connection(
-            "https://api.mainnet-beta.solana.com"
-        );
+        const connection = new Connection(SECRET_RPC);
         const tiplink = await TipLink.create();
 
         const keypair = Keypair.fromSecretKey(
@@ -45,9 +48,7 @@ export const GET = async ({ request }) => {
             BUBBLEGUM_PROGRAM_ID
         );
 
-        const collectionMint = new PublicKey(
-            "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV"
-        );
+        const collectionMint = new PublicKey(SECRET_COLLECTION_MINT);
 
         const [collectionMetadataAccount, _b1] =
             PublicKey.findProgramAddressSync(
@@ -122,16 +123,9 @@ export const GET = async ({ request }) => {
             keypair,
         ]);
 
-        const message = "Mint a Compressed Banana by @_qudo!";
+        console.log(tx);
 
-        const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-        await wait(5000);
-
-        return new Response("Redirect", {
-            headers: { Location: tiplink.url },
-            status: 303,
-        });
+        return new Response(JSON.stringify({ tiplink: tiplink.url, tx }));
     } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);

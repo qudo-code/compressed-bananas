@@ -1,5 +1,7 @@
 import { json } from "@sveltejs/kit";
 
+import { SECRET_RPC } from "$env/static/private";
+
 export const GET = async ({ request }) => {
     try {
         let page = 1;
@@ -8,27 +10,24 @@ export const GET = async ({ request }) => {
         const uniqueOwners = new Set();
 
         while (hasMoreResults) {
-            const response = await fetch(
-                "https://rpc.helius.xyz/?api-key=86425814-70c5-46d2-a033-c675dd0659de",
-                {
-                    body: JSON.stringify({
-                        id: "my-id",
-                        jsonrpc: "2.0",
-                        method: "getAssetsByGroup",
-                        params: {
-                            groupKey: "collection",
-                            groupValue:
-                                "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV",
-                            limit: 1000,
-                            page,
-                        },
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
+            const response = await fetch(SECRET_RPC, {
+                body: JSON.stringify({
+                    id: "my-id",
+                    jsonrpc: "2.0",
+                    method: "getAssetsByGroup",
+                    params: {
+                        groupKey: "collection",
+                        groupValue:
+                            "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV",
+                        limit: 1000,
+                        page,
                     },
-                    method: "POST",
-                }
-            );
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                method: "POST",
+            });
 
             const { result } = await response.json();
 
@@ -44,20 +43,9 @@ export const GET = async ({ request }) => {
             }
         }
 
-        // Convert Set to Array for stringification
-        const uniqueOwnersArray = Array.from(uniqueOwners);
-
-        // const root = {
-        //     count: uniqueOwners.size,
-        //     owners: uniqueOwnersArray,
-        // };
-
-        // const jsonResult = JSON.stringify(root, null, 2);
-
-        // console.log({ jsonResult });
-
-        return json(uniqueOwnersArray);
+        return json(Array.from(uniqueOwners));
     } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
 
         return json({});

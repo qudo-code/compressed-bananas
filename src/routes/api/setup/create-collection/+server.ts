@@ -33,18 +33,6 @@ export const GET = async ({ url }) => {
         new Uint8Array(JSON.parse(SECRET_KEYPAIR))
     );
 
-    // const collectionMint = cmintKey.publicKey;
-    // const collectionMint = await createMint(
-    //     connection,
-    //     payer,
-    //     payer.publicKey,
-    //     payer.publicKey,
-    //     0,
-    //     cmintKey,
-    //     { commitment: "finalized" },
-    //     TOKEN_PROGRAM_ID
-    // );
-
     // eslint-disable-next-line no-console
     console.log("1");
 
@@ -55,16 +43,6 @@ export const GET = async ({ url }) => {
     const collectionTokenAccount = new PublicKey(
         "7wX25Y1zWjJPbz9havqqUMDifzNNQ8pa5eZsQNXaHxbp"
     );
-
-    // const collectionTokenAccount = await createAccount(
-    //     connection,
-    //     payer,
-    //     new PublicKey("Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV"),
-    //     payer.publicKey,
-    //     undefined,
-    //     { commitment: "finalized" },
-    //     TOKEN_PROGRAM_ID
-    // );
 
     // eslint-disable-next-line no-console
     console.log("2");
@@ -91,6 +69,7 @@ export const GET = async ({ url }) => {
         ],
         TOKEN_METADATA_PROGRAM_ID
     );
+
     const collectionMeatadataIX = createCreateMetadataAccountV3Instruction(
         {
             metadata: collectionMetadataAccount,
