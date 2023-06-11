@@ -136,12 +136,12 @@
                 <div>
                     <h1 class="text-4xl font-bold">🍌 Compressed Bananas 🍌</h1>
                     <h3 class="text-xl font-bold opacity-70">
-                        Mint. More. Bananas.
+                        Mint. More. Free. Bananas.
                     </h3>
                 </div>
                 <div>
                     <a
-                        class="btn-outline btn"
+                        class="btn-dark btn"
                         href="https://github.com/qudo-code/compressed-bananas"
                         target="_blank"
                     >
@@ -288,9 +288,24 @@
                     {$holderCount.toFixed()} Holders
                 </p>
             </div>
-            <p class="mt-8 text-center text-xs opacity-50">
-                Made by <a href="https://twitter.com/_qudo">@_qudo</a>
-            </p>
+            <div class="flex items-center justify-between">
+                <p class="mt-8 text-center text-xs opacity-50">
+                    Made by <a href="https://twitter.com/_qudo">@_qudo</a>
+                </p>
+
+                <div class="flex items-center text-xs">
+                    Using
+                    <a
+                        href="https://tiplink.io"
+                        class="link mx-1">TipLink</a
+                    >
+                    &
+                    <a
+                        href="https://helius.xyz"
+                        class="link  mx-1">Helius</a
+                    >
+                </div>
+            </div>
         </div>
     </div>
 </div>
