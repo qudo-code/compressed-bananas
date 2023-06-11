@@ -155,9 +155,8 @@
                     <span class="text-3xl"> 🍬 </span> No wallet required to mint!
                 </h3>
                 <p class="opacity-70">
-                    Click the button below to celebrate NYC Hacker House and
-                    mint a free compressed NFT to a TipLink for you to claim
-                    with whatever wallet you want.
+                    Click the button below to celebrate NY Hacker House and mint
+                    a free compressed NFT.
                 </p>
             </div>
 
@@ -281,14 +280,17 @@
             {/if}
 
             <div class="flex flex-wrap">
-                {#each bananas as _}
-                    <span class="text-2xl">🍌</span>
+                {#each bananas as fruit}
+                    <span class="text-2xl">{fruit}</span>
                 {/each}
 
                 <p class="ml-2 text-xl font-bold">
                     {$holderCount.toFixed()} Holders
                 </p>
             </div>
+            <p class="mt-8 text-center text-xs opacity-50">
+                Made by <a href="https://twitter.com/_qudo">@_qudo</a>
+            </p>
         </div>
     </div>
 </div>
