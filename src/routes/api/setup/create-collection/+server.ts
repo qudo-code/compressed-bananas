@@ -21,13 +21,15 @@ import { PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mp
 import {
     SECRET_COLLECTION_KEYPAIR,
     SECRET_KEYPAIR,
-    SECRET_RPC,
+    SECRET_HELIUS_KEY,
     SECRET_COLLECTION_TOKEN,
     SECRET_COLLECTION_MINT,
 } from "$env/static/private";
 
 export const GET = async ({ url }) => {
-    const connection = new Connection(SECRET_RPC);
+    const connection = new Connection(
+        "https://rpc.helius.xyz/?api-key=" + SECRET_HELIUS_KEY
+    );
 
     const cmintKey = Keypair.fromSecretKey(
         new Uint8Array(JSON.parse(SECRET_COLLECTION_KEYPAIR))

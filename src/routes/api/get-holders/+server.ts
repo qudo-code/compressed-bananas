@@ -1,6 +1,6 @@
 import { json } from "@sveltejs/kit";
 
-import { SECRET_RPC } from "$env/static/private";
+import { SECRET_HELIUS_KEY } from "$env/static/private";
 
 export const GET = async ({ request }) => {
     try {
@@ -10,24 +10,27 @@ export const GET = async ({ request }) => {
         const uniqueOwners = new Set();
 
         while (hasMoreResults) {
-            const response = await fetch(SECRET_RPC, {
-                body: JSON.stringify({
-                    id: "my-id",
-                    jsonrpc: "2.0",
-                    method: "getAssetsByGroup",
-                    params: {
-                        groupKey: "collection",
-                        groupValue:
-                            "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV",
-                        limit: 1000,
-                        page,
+            const response = await fetch(
+                "https://rpc.helius.xyz/?api-key=" + SECRET_HELIUS_KEY,
+                {
+                    body: JSON.stringify({
+                        id: "my-id",
+                        jsonrpc: "2.0",
+                        method: "getAssetsByGroup",
+                        params: {
+                            groupKey: "collection",
+                            groupValue:
+                                "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV",
+                            limit: 1000,
+                            page,
+                        },
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                method: "POST",
-            });
+                    method: "POST",
+                }
+            );
 
             const { result } = await response.json();
 

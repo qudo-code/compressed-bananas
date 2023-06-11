@@ -23,7 +23,7 @@ import { sendVersionedTx } from "$lib/util/send-versioned-transaction";
 import {
     SECRET_KEYPAIR,
     SECRET_TREE_KEYPAIR,
-    SECRET_RPC,
+    SECRET_HELIUS_KEY,
 } from "$env/static/private";
 
 const keypair = Keypair.fromSecretKey(
@@ -35,7 +35,9 @@ const merkleTree = Keypair.fromSecretKey(
 );
 
 export const GET = async ({ url }) => {
-    const connection = new Connection(SECRET_RPC);
+    const connection = new Connection(
+        "https://rpc.helius.xyz/?api-key=" + SECRET_HELIUS_KEY
+    );
 
     const [treeAuthority, _bump] = PublicKey.findProgramAddressSync(
         [merkleTree.publicKey.toBuffer()],

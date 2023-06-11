@@ -24,7 +24,7 @@ import {
     SECRET_KEYPAIR,
     SECRET_TREE_KEYPAIR,
     SECRET_COLLECTION_MINT,
-    SECRET_RPC,
+    SECRET_HELIUS_KEY,
 } from "$env/static/private";
 import { json, redirect } from "@sveltejs/kit";
 
@@ -32,7 +32,10 @@ import { TipLink } from "@tiplink/api";
 
 export const GET = async ({ request }) => {
     try {
-        const connection = new Connection(SECRET_RPC);
+        const connection = new Connection(
+            "https://rpc.helius.xyz/?api-key=" + SECRET_HELIUS_KEY
+        );
+
         const tiplink = await TipLink.create();
 
         const keypair = Keypair.fromSecretKey(
