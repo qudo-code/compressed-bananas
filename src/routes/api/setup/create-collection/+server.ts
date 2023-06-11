@@ -22,6 +22,8 @@ import {
     SECRET_COLLECTION_KEYPAIR,
     SECRET_KEYPAIR,
     SECRET_RPC,
+    SECRET_COLLECTION_TOKEN,
+    SECRET_COLLECTION_MINT,
 } from "$env/static/private";
 
 export const GET = async ({ url }) => {
@@ -39,14 +41,10 @@ export const GET = async ({ url }) => {
     console.log("1");
 
     // The collection account (swap with your own)
-    const collectionMint = new PublicKey(
-        "Co1sfWfgK6PEMURzgQFK19hX5gnnEdq7DED6bj1QdUoV"
-    );
+    const collectionMint = new PublicKey(SECRET_COLLECTION_MINT);
 
     // The collection token account (swap with your own)
-    const collectionTokenAccount = new PublicKey(
-        "7wX25Y1zWjJPbz9havqqUMDifzNNQ8pa5eZsQNXaHxbp"
-    );
+    const collectionTokenAccount = new PublicKey(SECRET_COLLECTION_TOKEN);
 
     // eslint-disable-next-line no-console
     console.log("2");
