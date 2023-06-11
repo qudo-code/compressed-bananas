@@ -2,6 +2,8 @@
 
 Mint compressed NFTs to TipLink wallets using a Sveltekit UI.
 
+🔗 https://cbananas.com
+
 ### Mint Route (`/mint`)
 
 -   Generates TipLink wallet.
@@ -11,7 +13,7 @@ Mint compressed NFTs to TipLink wallets using a Sveltekit UI.
 
 There are a couple routes in `/setup` that are handy when initially creating your collection account and merkle tree.
 
-**Resources**
+#### Resources
 
 -   https://www.youtube.com/watch?v=83nIhnxtlW8
 -   https://github.com/loopcreativeandy/video-tutorial-resources/tree/main/cnfts
