@@ -55,7 +55,7 @@
                 res.json()
             );
 
-            await wait(8000);
+            // await wait(8000);
 
             state = "verifying";
 
@@ -76,11 +76,11 @@
             //     await wait(1500);
             // }
 
-            await wait(6000);
+            // await wait(6000);
 
             state = "verified";
 
-            await wait(1000);
+            // await wait(1000);
 
             window.location.href = tiplink;
         } catch (error) {
