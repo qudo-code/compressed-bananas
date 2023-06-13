@@ -55,7 +55,7 @@
                 res.json()
             );
 
-            await wait(8000);
+            // await wait(8000);
 
             state = "verifying";
 
@@ -76,11 +76,11 @@
             //     await wait(1500);
             // }
 
-            await wait(6000);
+            // await wait(6000);
 
             state = "verified";
 
-            await wait(1000);
+            // await wait(1000);
 
             window.location.href = tiplink;
         } catch (error) {
@@ -196,7 +196,7 @@
                     {#if state === "resting"}
                         <button
                             on:click={handleMint}
-                            class="btn-xl btn-primar btn w-full border-0 bg-green-500 hover:bg-green-100"
+                            class="btn-primar btn-xl btn w-full border-0 bg-green-500 hover:bg-green-100"
                         >
                             <span class="text-xl text-white hover:text-black"
                                 >Mint</span
